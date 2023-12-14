@@ -1,9 +1,9 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 const cities = [
   {
-    parameter: "moscow, center, sz, south, volga, ural, sibir, dv",
+    parameter: 'moscow, center, sz, south, volga, ural, sibir, dv',
     title: 'Все'
   },
   { parameter: 'moscow', title: 'Москва' },
@@ -16,9 +16,53 @@ const cities = [
   { parameter: 'dv', title: 'Дальний восток' }
 ]
 
+const citiesDropdown = [
+  {
+    region: 'Москва'
+  },
+  {
+    region: 'Центр',
+    cities: ['Воронеж', 'Ярославль', 'Белгород']
+  },
+  {
+    region: 'Северо-Запад',
+    cities: ['Санкт-Петербург', 'Калининград']
+  },
+  {
+    region: 'Юг',
+    cities: ['Ростов-на-Дону', 'Краснодар', 'Волгоград']
+  },
+  {
+    region: 'Волга',
+    cities: ['Казань', 'Самара', 'Уфа', 'Оренбург', 'Нижний Новгород']
+  },
+  {
+    region: 'Урал',
+    cities: ['Екатеринбург', 'Челябинск', 'Пермь', 'Сургут', 'Тюмень', 'Ижевск']
+  },
+  {
+    region: 'Сибирь',
+    cities: ['Новосибирск', 'Омск', 'Томск', 'Красноярск', 'Иркутск']
+  },
+  {
+    region: 'Дальний восток',
+    cities: ['Хабаровск', 'Владивосток']
+  }
+]
+
+const isDropdownOpen = ref(false)
+const dropdownImageRotation = ref(0)
+const isOverlayVisible = ref(false)
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value
+  dropdownImageRotation.value = dropdownImageRotation.value === 0 ? 180 : 0
+  isOverlayVisible.value = !isOverlayVisible.value
+}
+
 onMounted(() => {
- setCurrentSection(cities[0].parameter);
-});
+  setCurrentSection(cities[0].parameter)
+})
 
 const state = reactive({
   currentSection: cities
@@ -31,22 +75,27 @@ const setCurrentSection = (section) => {
 
 <template>
   <section class="offices">
-    <div class="offices__header">
-      <div class="offices__dropdown">
+    <div class="offices__header" v-bind:class="{ 'white-background': isOverlayVisible }">
+      <div class="offices__dropdown" @click="toggleDropdown">
         <p class="offices__dropdown-text">Офисы Softline</p>
+
         <svg
-          class="offices__dropdown-svg"
+          :style="{ transform: `rotate(${dropdownImageRotation}deg)` }"
+          class="offices__dropdown-img"
           width="24"
           height="24"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M2.10156 7.99683L12.1016 16.0179L22.1016 7.99683"
-            stroke="#444444"
-            stroke-width="3"
-          />
+          <g id="Frame 18625261">
+            <path
+              id="Rectangle 9025"
+              d="M2.10156 7.99683L12.1016 16.0179L22.1016 7.99683"
+              stroke="#444444"
+              stroke-width="3"
+            />
+          </g>
         </svg>
       </div>
 
@@ -56,12 +105,38 @@ const setCurrentSection = (section) => {
           v-for="(city, index) in cities"
           :key="index"
           @click="setCurrentSection(city.parameter)"
-          :class="{ active: state.currentSection === city.parameter  }"
+          :class="{
+            active: state.currentSection === city.parameter,
+            'gray-text-color': isOverlayVisible
+          }"
         >
           {{ city.title }}
         </li>
       </ul>
     </div>
+
+    <div class="overlay" v-show="isOverlayVisible"></div>
+
+    <ul class="offices__dropdown-list" v-show="isDropdownOpen">
+      <li class="offices__dropdown-list-item" v-for="(city, index) in citiesDropdown" :key="index">
+        <h3 class="offices__dropdown-list-title">
+          {{ city.region }}
+          <svg
+            class="office_list-item_svg"
+            xmlns="http://www.w3.org/2000/svg"
+            width="8"
+            height="4"
+            viewBox="0 0 8 4"
+            fill="none"
+          >
+            <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
+          </svg>
+        </h3>
+        <div class="offices__dropdown-list-wrapper">
+          <p class="offices__dropdown-list-text" v-for="(c, i) in city.cities" :key="i">{{ c }}</p>
+        </div>
+      </li>
+    </ul>
 
     <svg
       class="offices__map"
@@ -629,167 +704,6 @@ const setCurrentSection = (section) => {
         fill="#444444"
       />
     </svg>
-
-    <!-- <div class="office_list office_header">
-        <div class="office_list-item">
-          <h4>
-            Москва
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Центр
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Воронеж</p>
-            <p>Ярославль</p>
-            <p>Белгород</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Северо-Запад
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Санкт-Петербург</p>
-            <p>Калининград д</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Юг
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Ростов-на-Дону</p>
-            <p>Краснодар</p>
-            <p>Волгоград</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Волга
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Воронеж</p>
-            <p>Ярославль</p>
-            <p>Белгород</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Урал
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Воронеж</p>
-            <p>Ярославль</p>
-            <p>Белгород</p>
-            <p>Томск</p>
-            <p>Красноярск</p>
-            <p>Иркутск</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Сибирь
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Новосибирск</p>
-            <p>Омск</p>
-            <p>Томск</p>
-            <p>Красноярск</p>
-            <p>Иркутск</p>
-          </div>
-        </div>
-        <div class="office_list-item">
-          <h4>
-            Дальний Восток
-            <svg
-              class="office_list-item_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="4"
-              viewBox="0 0 8 4"
-              fill="none"
-            >
-              <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
-            </svg>
-          </h4>
-          <div class="office_list-item_branch">
-            <p>Хабаровск</p>
-            <p>Владивосток</p>
-          </div>
-        </div>
-      </div> -->
   </section>
 </template>
 
@@ -801,6 +715,8 @@ const setCurrentSection = (section) => {
   justify-content: center;
   align-items: center;
 
+  position: relative;
+
   &__header {
     height: 80px;
     margin-bottom: 90px;
@@ -810,20 +726,8 @@ const setCurrentSection = (section) => {
     align-items: center;
     padding: 0 70px;
     box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.06);
-  }
-  &__dropdown {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    &-text {
-      color: $black;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 100%;
-    }
+    position: relative;
+    z-index: 2;
   }
 
   &__list {
@@ -848,5 +752,86 @@ const setCurrentSection = (section) => {
     color: $burgundy;
     border-bottom: 3px solid $burgundy;
   }
+
+  &__dropdown {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+
+    &-text {
+      color: $black;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+    }
+
+    &-list {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 30px 0;
+      box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.06);
+      width: 100%;
+
+      position: absolute;
+      top: 100px;
+      z-index: 60;
+      background-color: $white;
+
+      &-item {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      &-title {
+        color: $black;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        font-family: 'Proxima Nova', sans-serif;
+      }
+
+      &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      &-text {
+        color: $black;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        font-family: 'Proxima Nova', sans-serif;
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fafafa;
+  opacity: 0.5;
+  z-index: 1;
+}
+.white-background {
+  background-color: $white;
+}
+
+.gray-text-color {
+  color: #959697;
+  opacity: 0.2;
 }
 </style>

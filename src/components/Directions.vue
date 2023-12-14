@@ -134,12 +134,9 @@ const setHover = (index, value) => {
         width: 100%;
         color: $white;
         background-color: rgba(45, 54, 83, 0.6);
-
         position: absolute;
         bottom: 0px;
-
         padding: 28px 0 28px 20px;
-
         font-size: 24px;
         font-style: normal;
         font-weight: 600;
