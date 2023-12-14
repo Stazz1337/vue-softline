@@ -1,9 +1,9 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 
-const allCities = [
+const cities = [
   {
-    parameter: ['moscow', 'center', 'sz', 'dv', 'south', 'volga', 'ural', 'sibir'],
+    parameter: "moscow, center, sz, south, volga, ural, sibir, dv",
     title: 'Все'
   },
   { parameter: 'moscow', title: 'Москва' },
@@ -16,8 +16,12 @@ const allCities = [
   { parameter: 'dv', title: 'Дальний восток' }
 ]
 
+onMounted(() => {
+ setCurrentSection(cities[0].parameter);
+});
+
 const state = reactive({
-  currentSection: allCities[0].parameter
+  currentSection: cities
 })
 
 const setCurrentSection = (section) => {
@@ -46,24 +50,13 @@ const setCurrentSection = (section) => {
         </svg>
       </div>
 
-      <!-- <ul class="offices__list">
-        <li class="offices__list-item" @click="setCurrentSection(allCities)">Все</li>
-        <li class="offices__list-item" @click="setCurrentSection('moscow')">Москва</li>
-        <li class="offices__list-item" @click="setCurrentSection('center')">Центр</li>
-        <li class="offices__list-item" @click="setCurrentSection('sz')">Северо-Запад</li>
-        <li class="offices__list-item" @click="setCurrentSection('south')">Юг</li>
-        <li class="offices__list-item" @click="setCurrentSection('volga')">Волга</li>
-        <li class="offices__list-item" @click="setCurrentSection('ural')">Урал</li>
-        <li class="offices__list-item" @click="setCurrentSection('sibir')">Сибирь</li>
-        <li class="offices__list-item" @click="setCurrentSection('dv')">Дальний восток</li>
-      </ul> -->
-      
       <ul class="offices__list">
         <li
           class="offices__list-item"
-          v-for="(city, index) in allCities"
+          v-for="(city, index) in cities"
           :key="index"
           @click="setCurrentSection(city.parameter)"
+          :class="{ active: state.currentSection === city.parameter  }"
         >
           {{ city.title }}
         </li>
@@ -839,6 +832,7 @@ const setCurrentSection = (section) => {
     gap: 30px;
 
     &-item {
+      padding: 30px 0;
       color: $black;
       font-size: 18px;
       font-style: normal;
@@ -849,6 +843,10 @@ const setCurrentSection = (section) => {
   }
   &__map {
     overflow: auto;
+  }
+  .active {
+    color: $burgundy;
+    border-bottom: 3px solid $burgundy;
   }
 }
 </style>
