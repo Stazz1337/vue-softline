@@ -45,7 +45,7 @@ export default {
       @swiper="onSwiper"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
-        <img :src="slide.src" :alt="slide.alt" />
+        <img class="slider__img" :src="slide.src" :alt="slide.alt" />
       </swiper-slide>
       <div class="swiper-pagination"></div>
     </swiper>
@@ -59,6 +59,20 @@ export default {
 .slider {
   position: relative;
   padding-bottom: 74px;
+  margin: auto;
+  overflow: hidden;
+
+  @media screen and (max-width: 320px) {
+    width: 290px;
+    padding-bottom: 0;
+  }
+
+  &__img {
+    @media screen and (max-width: 320px) {
+      width: 280px;
+    }
+  }
+
   &__title {
     color: $black;
     font-size: 56px;
@@ -66,6 +80,14 @@ export default {
     font-weight: 600;
     line-height: 100%;
     margin: 0 0 58px 70px;
+
+    @media screen and (max-width: 320px) {
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+      margin: 0 0 15px 0;
+    }
   }
 }
 .swiper {
@@ -93,6 +115,10 @@ export default {
   border-radius: 50%;
   background-color: #f0f0f0;
   transform: scale(0.6);
+
+  @media screen and (max-width: 320px) {
+    display: none;
+  }
 }
 
 .swiper .swiper-pagination-bullet {
@@ -109,6 +135,9 @@ export default {
 .swiper .swiper-pagination-horizontal {
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 320px) {
+    display: none;
+  }
 }
 
 .swiper {

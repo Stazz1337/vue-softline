@@ -84,6 +84,10 @@ const setHover = (index, value) => {
   flex-wrap: wrap;
   justify-content: space-between;
 
+  @media screen and (max-width: 320px) {
+    padding: 50px 0;
+  }
+
   &__title {
     color: $black;
     font-size: 56px;
@@ -91,6 +95,10 @@ const setHover = (index, value) => {
     font-weight: 600;
     line-height: 100%;
     margin-bottom: 55px;
+    @media screen and (max-width: 320px) {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
   }
 
   &__list {
@@ -101,12 +109,22 @@ const setHover = (index, value) => {
     row-gap: 22px;
     list-style-type: none;
 
+    @media screen and (max-width: 320px) {
+      grid-template-columns: repeat(1, 1fr);
+      row-gap: 10px;
+    }
+
     &-item {
       position: relative;
       width: 100%;
       overflow: hidden;
       height: 260px;
       cursor: pointer;
+
+      @media screen and (max-width: 320px) {
+        height: 60px;
+        width: 290px;
+      }
     }
 
     &-item_img {
@@ -129,6 +147,16 @@ const setHover = (index, value) => {
       font-style: normal;
       font-weight: 600;
       line-height: 100%;
+
+      @media screen and (max-width: 320px) {
+         
+        padding: 0;
+        margin: 0;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 100%;
+      }
 
       &-hover {
         width: 100%;
@@ -157,6 +185,8 @@ const setHover = (index, value) => {
 
       padding: 0 0 0 20px;
       margin-top: 20px;
+
+   
     }
   }
 }

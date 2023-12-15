@@ -87,12 +87,25 @@ import '../assets/main.scss';
   padding: 0 70px;
   height: 85px;
 
+  @media screen and (max-width: 320px) {
+    padding: 0;
+    height: 110px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+  }
+
   &__list {
     list-style: none;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
+    @media screen and (max-width: 320px) {
+      flex-direction: row;
+      gap: 5px;
+    }
 
     &-item {
       text-decoration: none;
@@ -102,6 +115,9 @@ import '../assets/main.scss';
 
       &:hover {
       opacity: 0.8;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 14px;
     }
     }
   }

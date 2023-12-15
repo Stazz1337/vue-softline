@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { useMediaQuery } from '@vueuse/core'
 
 const cities = [
   {
@@ -53,6 +54,9 @@ const citiesDropdown = [
 const isDropdownOpen = ref(false)
 const dropdownImageRotation = ref(0)
 const isOverlayVisible = ref(false)
+const openedIndex = ref(-1)
+const svgRotation = ref(0)
+const isLargeScreen = useMediaQuery('(min-width: 320px)')
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value
@@ -67,6 +71,16 @@ onMounted(() => {
 const state = reactive({
   currentSection: cities
 })
+
+const toggleWrapper = (index) => {
+  if (openedIndex.value === index) {
+    openedIndex.value = -1
+    svgRotation.value = 0
+  } else {
+    openedIndex.value = index
+    svgRotation.value = 180
+  }
+}
 
 const setCurrentSection = (section) => {
   state.currentSection = section
@@ -119,10 +133,15 @@ const setCurrentSection = (section) => {
 
     <ul class="offices__dropdown-list" v-show="isDropdownOpen">
       <li class="offices__dropdown-list-item" v-for="(city, index) in citiesDropdown" :key="index">
-        <h3 class="offices__dropdown-list-title">
+        <h3
+          class="offices__dropdown-list-title"
+          @click="toggleWrapper(index)"
+          :class="{ 'active-text-color': openedIndex === index }"
+        >
           {{ city.region }}
           <svg
-            class="office_list-item_svg"
+            class="offices__dropdown-list-item-svg"
+            :style="{ transform: openedIndex === index ? `rotate(${svgRotation}deg)` : '' }"
             xmlns="http://www.w3.org/2000/svg"
             width="8"
             height="4"
@@ -132,7 +151,10 @@ const setCurrentSection = (section) => {
             <path d="M4 4L7.4641 0.25H0.535898L4 4Z" fill="#444444" />
           </svg>
         </h3>
-        <div class="offices__dropdown-list-wrapper">
+        <div class="offices__dropdown-list-wrapper" v-show="isLargeScreen">
+          <p class="offices__dropdown-list-text" v-for="(c, i) in city.cities" :key="i">{{ c }}</p>
+        </div>
+        <div class="offices__dropdown-list-wrapper" v-show="openedIndex === index">
           <p class="offices__dropdown-list-text" v-for="(c, i) in city.cities" :key="i">{{ c }}</p>
         </div>
       </li>
@@ -717,6 +739,12 @@ const setCurrentSection = (section) => {
 
   position: relative;
 
+  @media screen and (max-width: 320px) {
+    overflow-x: auto;
+    align-items: start;
+    margin-bottom: 0;
+  }
+
   &__header {
     height: 80px;
     margin-bottom: 90px;
@@ -728,12 +756,24 @@ const setCurrentSection = (section) => {
     box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.06);
     position: relative;
     z-index: 2;
+
+    @media screen and (max-width: 320px) {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      padding: 0;
+    }
   }
 
   &__list {
     list-style: none;
     display: flex;
     gap: 30px;
+
+    @media screen and (max-width: 320px) {
+      gap: 16px;
+    }
 
     &-item {
       padding: 30px 0;
@@ -743,10 +783,20 @@ const setCurrentSection = (section) => {
       font-weight: 600;
       line-height: 20px;
       cursor: pointer;
+
+      @media screen and (max-width: 320px) {
+        font-size: 14px;
+        padding: 15px 0;
+      }
     }
   }
   &__map {
     overflow: auto;
+    @media screen and (max-width: 320px) {
+      width: 862px;
+      height: 445.789px;
+      flex-shrink: 0;
+    }
   }
   .active {
     color: $burgundy;
@@ -767,6 +817,10 @@ const setCurrentSection = (section) => {
       font-style: normal;
       font-weight: 600;
       line-height: 100%;
+
+      @media screen {
+        font-size: 20px;
+      }
     }
 
     &-list {
@@ -776,17 +830,31 @@ const setCurrentSection = (section) => {
       gap: 24px;
       padding: 30px 0;
       box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.06);
-      width: 100%;
+      width: 98%;
 
       position: absolute;
       top: 100px;
       z-index: 60;
       background-color: $white;
 
+      @media screen and (max-width: 320px) {
+        padding: 5px;
+        gap: 15px;
+        flex-wrap: wrap;
+        top: 50px;
+        justify-content: start;
+      }
+
       &-item {
         display: flex;
         flex-direction: column;
         gap: 12px;
+
+        &-svg {
+          @media screen and (min-width: 321px) {
+            display: none;
+          }
+        }
       }
 
       &-title {
@@ -796,12 +864,21 @@ const setCurrentSection = (section) => {
         font-weight: 600;
         line-height: 20px;
         font-family: 'Proxima Nova', sans-serif;
+        @media screen and (max-width: 320px) {
+          font-size: 14px;
+        }
       }
 
       &-wrapper {
         display: flex;
         flex-direction: column;
         gap: 12px;
+
+        @media screen and (min-width: 320px) {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+        }
       }
 
       &-text {
@@ -811,6 +888,9 @@ const setCurrentSection = (section) => {
         font-weight: 400;
         line-height: 20px;
         font-family: 'Proxima Nova', sans-serif;
+        @media screen and (max-width: 320px) {
+          font-size: 14px;
+        }
       }
     }
   }
@@ -833,5 +913,9 @@ const setCurrentSection = (section) => {
 .gray-text-color {
   color: #959697;
   opacity: 0.2;
+}
+
+.active-text-color {
+  color: $burgundy;
 }
 </style>

@@ -13,16 +13,16 @@ const items = [
     <div class="about__wrapper">
       <p class="about__text">
         <span class="about__span"> Softline </span>
-        – ведущий поставщик IT-решений и сервисов.* Мы&nbsp;предлагаем комплексные IT-решения, облака,
-        программное и&nbsp;аппаратное обеспечение, решения по цифровой трансформации и&nbsp;кибербезопасности,
-        а также широкий спектр IT-услуг.
+        – ведущий поставщик IT-решений и сервисов.* Мы&nbsp;предлагаем комплексные IT-решения,
+        облака, программное и&nbsp;аппаратное обеспечение, решения по цифровой трансформации
+        и&nbsp;кибербезопасности, а также широкий спектр IT-услуг.
       </p>
     </div>
 
     <div class="about__numbers">
-      <div v-for="(item,index) in items" :key="index" class="about__numbers-item">
+      <div v-for="(item, index) in items" :key="index" class="about__numbers-item">
         <h2 class="about__numbers-item_title">{{ item.title }}</h2>
-        <p class="about__numbers-item_text" v-html ="item.text"></p>
+        <p class="about__numbers-item_text" v-html="item.text"></p>
       </div>
     </div>
   </section>
@@ -31,6 +31,10 @@ const items = [
 <style lang="scss" scoped>
 .about {
   padding: 100px 70px;
+  margin: auto;
+  @media screen and (max-width: 320px) {
+    padding: 50px 0;
+  }
 
   &__text {
     margin: 0;
@@ -40,8 +44,15 @@ const items = [
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
-    line-height: 120%; 
+    line-height: 120%;
     box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.08);
+    @media screen and (max-width: 320px) {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 120%;
+      padding: 24px 0;
+    }
   }
 
   &__span {
@@ -55,6 +66,13 @@ const items = [
     flex-wrap: wrap;
     column-gap: 185px;
     row-gap: 80px;
+
+    @media screen and (max-width: 320px) {
+      column-gap: 8px;
+      row-gap: 24px;
+      margin-top: 50px;
+      
+    }
   }
 
   &__numbers-item_title {
@@ -64,7 +82,14 @@ const items = [
     font-weight: 600;
     line-height: 80%;
     margin: 0;
-    
+
+    @media screen and (max-width: 320px) {
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 80%;
+      text-align: center;
+    }
   }
 
   &__numbers-item_text {
@@ -75,6 +100,13 @@ const items = [
     line-height: 150%;
     margin: 0;
     white-space: pre-wrap;
+
+    @media screen {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+    }
   }
 }
 </style>

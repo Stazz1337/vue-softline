@@ -7,27 +7,26 @@ import Mission from './components/Mission.vue'
 import Directions from './components/Directions.vue'
 import Benefits from './components/Benefits.vue'
 import Slider from './components/Slider.vue'
-
-
 </script>
 
 <template>
   <div class="wrapper">
     <Header />
-    <Promo/>
+    <Promo />
     <About />
-    <Offices/>
-    <Mission/>
+    <Offices />
+    <Mission />
     <Directions />
-    <Benefits/>
-    <Slider/>
+    <Benefits />
+    <Slider />
   </div>
 </template>
 
 <style scoped lang="scss">
 
 .wrapper {
-  width: 1250px;
+  min-width: 290px;
+  max-width: 1250px;
   margin: auto;
 }
 </style>

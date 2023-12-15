@@ -46,6 +46,14 @@ const motivations = [
   flex-direction: column;
   align-items: center;
   padding-bottom: 80px;
+ 
+
+  @media screen and (max-width: 320px) {
+
+    padding-bottom: 50px;
+    width: 100%;
+  margin: 0 auto;
+  }
 
   &__title {
     color: $black;
@@ -54,6 +62,11 @@ const motivations = [
     font-weight: 600;
     line-height: 100%;
     margin: 80px 0 50px;
+    @media screen and (max-width: 320px) {
+      font-size: 28px;
+      line-height: 100%;
+      margin: 24px 0 40px;
+    }
   }
 
   &__subtitle {
@@ -67,8 +80,17 @@ const motivations = [
     align-items: center;
     margin-bottom: 50px;
 
+    @media screen and (max-width: 320px) {
+      font-size: 28px;
+      line-height: 100%;
+      text-align: center;
+      margin-bottom: 25px;
+      
+    }
+
     &-span {
       color: $red;
+
     }
   }
 
@@ -78,6 +100,10 @@ const motivations = [
     background-color: $black;
     opacity: 0.1;
     margin: 75px 0 70px;
+
+    @media screen and (max-width: 320px) {
+      margin: 24px 0;
+    }
   }
 
   &__list {
@@ -85,6 +111,8 @@ const motivations = [
     display: flex;
     justify-content: space-between;
     gap: 16px;
+    flex-wrap: wrap;
+    
 
     &-item {
       display: flex;
@@ -92,6 +120,11 @@ const motivations = [
       align-items: center;
       gap: 10px;
       width: 178px;
+      flex: 1 0 45%;
+
+      @media screen and (max-width: 320px) {
+        width: 120px;
+      }
 
       &-img {
         border-radius: 50%;
@@ -101,6 +134,11 @@ const motivations = [
         height: 110px;
         object-fit: contain;
         background-color: rgba(0, 0, 0, 0.1);
+
+        @media screen and (max-width: 320px) {
+          width: 80px;
+          height: 80px;
+        }
       }
 
       &-text {

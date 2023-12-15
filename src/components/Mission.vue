@@ -392,6 +392,11 @@
   height: 470px;
   position: relative;
 
+  @media screen and (max-width: 320px) {
+    height: 205px;
+    
+  }
+
   &__title {
     color: $white;
     font-size: 56px;
@@ -400,6 +405,13 @@
     line-height: 100%;
     text-align: center;
     margin: 0;
+    @media screen and (max-width: 320px) {
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+      
+    }
   }
 
   &__text {
@@ -411,18 +423,35 @@
     width: 1110px;
     text-align: center;
     margin: 0;
+
+    @media screen and (max-width: 320px) {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 130%;
+      width: 100%;
+      
+    }
   }
 
   &__left-svg {
     position: absolute;
     top: 40px;
     left: 0;
+    @media screen and (max-width: 320px) {
+      width: 100px;
+      height: 122px;
+    }
   }
 
   &__right-svg {
     position: absolute;
     top: 40px;
     right: 0;
+    @media screen and (max-width: 320px) {
+      width: 100px;
+      height: 122px;
+    }
   }
 }
 </style>
